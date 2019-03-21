@@ -1,24 +1,27 @@
-import os
+from pathlib import Path
 
-fastas = config["species"] + ".fastas"
-species = os.path.join(database, species)
+
+fastas = Path("genbank").glob("GCA*fna.gz")
+SKETCHES = Path("genbank").glob("GCA*msh")
+
 
 rule sketch:
     conda:
         "../envs/mash.yaml"
+    # use expand(fastas) here
     input:
-        "{species}/fastas.txt"
+        "genbank/.fastas.txt"
     output:
-        "{species}/all.msh"
-    threads: 8
+        expand(SKETCHES)
+    threads: int(config["threads"])
     shell:
-        # "echo {input.fa.split()}"
-        "mash sketch -p {threads} -l {input} -o {output}"
+        "mash sketch -p {threads} -l {input}"
 
-rule list:
+rule path_list:
     input:
-        "{species}"
+        "genbank/summary.tsv"
     output:
-        "{species}/fastas.txt"
+        "genbank/.fastas.txt"
     shell:
-        "find {input} -type f -name '*fasta' > {output}"
+       "find genbank -type f -name 'GCA*fna.gz' > {output}"
+
