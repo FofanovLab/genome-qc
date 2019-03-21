@@ -1,3 +1,7 @@
-database: /home/asanchez/databases/bacteria_genbank/
-species: Escherichia_coli
-
+outdir: /tmp/GenBankQC
+domains: "bacteria"
+section: "genbank"
+assembly_level: "complete"
+file_format: "fasta"
+species: "Buchnera aphidicola"
+threads: "4"
