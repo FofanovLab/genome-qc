@@ -1,7 +1,7 @@
-outdir: /tmp/GenBankQC
-domains: "bacteria"
+outdir: GenBankQC
+group: "bacteria"
 section: "genbank"
 assembly_level: "complete"
-file_format: "fasta"
+format: "fasta"
 species: "Buchnera aphidicola"
 threads: "4"
