@@ -1,18 +1,28 @@
+from pathlib import Path
+
+
 outdir = config["outdir"]
+section = config["section"]
+assembly_level = config["assembly_level"]
+format = config["format"]
+group = config["group"]
 species = config["species"]
 
+
 rule download:
+    output: "{outdir}/summary.tsv"
+    threads: int(config["threads"])
     conda:
          "../envs/ncbi-genome-download.yaml"
-    output:
-          directory("/tmp/GenBankQC")
     shell:
-         "ncbi-genome-download -p 4 -o {outdir} --section genbank --assembly-level complete "
-         "--genus '{species}' bacteria --assembly-level complete"
+         "ncbi-genome-download -H -o {outdir} -m '{outdir}/summary.tsv' "
+         "-p {threads} --section {section} -F {format} "
+         "--assembly-level {assembly_level} "
+         " --genus '{species}' {group}"
 
 # Write path names of FASTAs to temporary file.
 rule path_list:
-    output:
-          temp("{outdir}/.fastas.txt")
+    input: "{outdir}/summary.tsv"
+    output: "{outdir}/fastas.txt"
     shell:
-        "find {outdir} -type f -name 'GCA*fna.gz' > {output}"
+        "find {outdir}/genbank -type f -name 'GCA*fna.gz' > {output}"
