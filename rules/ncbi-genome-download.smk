@@ -1,21 +1,13 @@
 from pathlib import Path
 
 
-
 rule download:
-    output: "{outdir}/summary.tsv"
-    threads: int(config["threads"])
+    output: "{outdir}/summary.tsv",
     conda:
          "../envs/ncbi-genome-download.yaml"
+    threads: int(config["threads"])
     shell:
          "ncbi-genome-download -o '{outdir}' -m '{outdir}/summary.tsv' "
          "-p {threads} --section {section} -F {format} "
          "--assembly-level {assembly_level} "
          " --genus '{species}' {group}"
-
-# Write path names of FASTAs to temporary file.
-rule path_list:
-    input: "{outdir}/summary.tsv"
-    output: "{outdir}/fastas.txt"
-    shell:
-        "find '{outdir}' -type f -name 'GCA*fna.gz' > '{output}'"
