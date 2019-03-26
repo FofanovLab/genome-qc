@@ -12,10 +12,9 @@ format = config["format"]
 group = config["group"]
 
 
-include: "rules/mash.smk"
 include: "rules/ncbi-genome-download.smk"
+include: "rules/mash.smk"
 
 rule all:
-    # input: "{outdir}/summary.tsv"
-    input: lambda x: os.path.join(outdir, "fastas.txt")
+    input: lambda x: os.path.join(outdir, "dmx.tsv")
 
