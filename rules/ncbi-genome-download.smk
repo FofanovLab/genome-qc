@@ -1,13 +1,6 @@
 from pathlib import Path
 
 
-outdir = config["outdir"]
-section = config["section"]
-assembly_level = config["assembly_level"]
-format = config["format"]
-group = config["group"]
-species = config["species"]
-
 
 rule download:
     output: "{outdir}/summary.tsv"
