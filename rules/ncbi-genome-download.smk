@@ -18,4 +18,4 @@ rule path_list:
     input: "{outdir}/summary.tsv"
     output: "{outdir}/fastas.txt"
     shell:
-        "find {outdir}/genbank -type f -name 'GCA*fna.gz' > {output}"
+        "find '{outdir}' -type f -name 'GCA*fna.gz' > '{output}'"
