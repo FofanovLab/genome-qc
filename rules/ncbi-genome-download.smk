@@ -8,7 +8,7 @@ rule download:
     conda:
          "../envs/ncbi-genome-download.yaml"
     shell:
-         "ncbi-genome-download -H -o {outdir} -m '{outdir}/summary.tsv' "
+         "ncbi-genome-download -o '{outdir}' -m '{outdir}/summary.tsv' "
          "-p {threads} --section {section} -F {format} "
          "--assembly-level {assembly_level} "
          " --genus '{species}' {group}"
