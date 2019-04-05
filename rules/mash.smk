@@ -1,31 +1,30 @@
 import os
-from pathlib import Path
 
 
-fastas = [p.as_posix() for p in Path(outdir).rglob("GCA*fna.gz")]
+def get_paths():
+    globbed = glob_wildcards(os.path.join(section_dir, "{id_path}.fna.gz"))
+    return globbed
 
 
-# Write list of FASTAs to disk for use by mash sketch
-rule path_list:
-    input: "{outdir}/summary.tsv"
-    output: "{outdir}/fastas.txt"
-    shell:
-         "find '{outdir}' -type f -name 'GCA*fna.gz' > '{output}'"
-
+# Make sure this is run only for new genomes
 rule sketch:
-    conda:
-        "../envs/mash.yaml"
-    # input: lambda x:  os.path.join(outdir, "fastas.txt")
-    input: "{outdir}/fastas.txt"
-    output: "{outdir}/all.msh"
-    threads: int(config["threads"])
-    shell: "mash sketch -p {threads} -l '{input}' -o '{output}'"
+    input:
+           "GenBankQC/Buchnera aphidicola/summary.tsv",
+           fasta=os.path.join(section_dir, "{id_path}.fna.gz")
+    output: os.path.join(section_dir, "{id_path}.fna.gz.msh")
+    shell: "mash sketch -o '{section_dir}/MASH/' '{input.fasta}'"
 
-rule dist:
-    conda:
-         "../envs/mash.yaml"
-    input: "{outdir}/all.msh"
-    output: "{outdir}/dmx.tsv"
-    threads: int(config["threads"])
-    shell:
-         "mash dist -p {threads} -t '{input}' '{input}' > '{output}'"
+rule paste:
+    input:
+            expand(os.path.join(section_dir, "{id_path}.fna.gz.msh"),
+                  id_path=get_paths().id_path)
+    # output: "{section_dir}/all.msh"
+    # shell: "mash paste all {input}"
+
+# Use mash paste to avoid needing to re-sketch fastas
+# rule dist:
+#     conda: "../envs/mash.yaml"
+#     input: "GenBankQC/Buchnera aphidicola/all.msh"
+#     output: "GenBankQC/Buchnera aphidicola/dmx.tsv"
+#     threads: threads
+#     shell: "mash dist -p {threads} -t '{input}' '{input}' > '{output}'"
