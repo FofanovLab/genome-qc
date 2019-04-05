@@ -1,15 +1,17 @@
-import os
 from pathlib import Path
 
 configfile: "config.yaml"
 
 
 species = config["species"]
-outdir = os.path.join(config["outdir"], species.replace(' ', '_'))
+outdir = Path(config["outdir"]) / species
 section = config["section"]
+group = config["group"]
+section_dir = os.path.join(outdir, section)
+group_dir = os.path.join(outdir, section, group)
 assembly_level = config["assembly_level"]
 format = config["format"]
-group = config["group"]
+threads = config["threads"]
 
 
 include: "rules/ncbi-genome-download.smk"
