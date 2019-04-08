@@ -4,5 +4,5 @@ section: "genbank"
 assembly_level: "complete"
 format: "fasta"
 threads: 8
-species: "Buchnera aphidicola"
+species: "Buchnera_aphidicola"
 taxid: "9"
