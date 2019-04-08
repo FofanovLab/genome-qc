@@ -15,8 +15,18 @@ format = config["format"]
 threads = config["threads"]
 
 
+def stats_paths(wc):
+    group_dir = checkpoints.download.get(**wc).output[0]
+    p = os.path.join(group_dir, "{fasta_path}.fna.gz")
+    globbed = glob_wildcards(p)
+    expanded = expand(
+        os.path.join(group_dir, "{fasta_path}.fna.gz.csv"),
+        fasta_path=globbed.fasta_path)
+    return expanded
+
 rule all:
-    input: os.path.join(section_dir, "all.dmx")
+    input: os.path.join(section_dir, "mean_distance.txt"),
+           stats_paths
 
 checkpoint download:
     threads: 8
@@ -48,7 +58,7 @@ rule sketch:
 
 rule paste:
     input: sketch_paths
-    output: os.path.join(section_dir, "all.msh")
+
     shell: "mash paste {output} {input}"
 
 rule dist:
@@ -56,3 +66,14 @@ rule dist:
     output: os.path.join(section_dir, "all.dmx")
     threads: threads
     shell: "mash dist -p {threads} -t '{input}' '{input}' > '{output}'"
+
+rule mean_dist:
+    input: dmx=os.path.join(section_dir, "all.dmx")
+    output: mean_dist=os.path.join(section_dir, "mean_distance.txt")
+    script: "scripts/dmx.py"
+
+rule genome_stats:
+    input: mean_dist=os.path.join(section_dir, "mean_distance.txt"),
+           fasta=os.path.join(group_dir, "{fasta_path}.fna.gz")
+    output: os.path.join(group_dir, "{fasta_path}.fna.gz.csv")
+    script: "scripts/genome_stats.py"
