@@ -4,6 +4,7 @@ configfile: "config.yaml"
 
 
 species = config["species"]
+taxid = config["taxid"]
 outdir = Path(config["outdir"]) / species
 section = config["section"]
 group = config["group"]
@@ -14,9 +15,8 @@ format = config["format"]
 threads = config["threads"]
 
 
-include: "rules/ncbi-genome-download.smk"
+# include: "rules/ncbi-genome-download.smk"
 include: "rules/mash.smk"
 
 rule all:
-    input: lambda x: os.path.join(outdir, "dmx.tsv")
-
+    input: os.path.join(section_dir, "all.dmx")
