@@ -19,10 +19,6 @@ import genbankqc.genome as genome
 
 species = snakemake.config["species"]
 outdir = Path(snakemake.config["outdir"]) / species
-section = snakemake.config["section"]
-section_dir = os.path.join(outdir, section)
-group = snakemake.config["group"]
-group_dir = os.path.join(outdir, section, group)
 
 CRITERIA = ["unknowns", "contigs", "assembly_size", "distance"]
 

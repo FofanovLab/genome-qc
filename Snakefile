@@ -26,7 +26,7 @@ def stats_paths(wc):
     return expanded
 
 rule all:
-    input: os.path.join(group_dir, "qc", "tree.svg")
+    input: os.path.join(outdir, "qc", "tree.svg")
 
 checkpoint download:
     threads: 8
@@ -87,7 +87,7 @@ rule qc:
         dmx=os.path.join(section_dir, "all.dmx")
     # TODO Move qc and results elsewhere
     #  This messes up globbing the fastas because glob finds fastas in qc dir
-    output: os.path.join(group_dir, "qc", "tree.svg")
+    output: os.path.join(outdir, "qc", "tree.svg")
     script: "scripts/qc.py"
 
 rule rename:
