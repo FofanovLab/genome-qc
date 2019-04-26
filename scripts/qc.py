@@ -426,7 +426,7 @@ class Species(object):
 
     def link_genomes(self):
         for passed_genome in self.passed.index:
-            src = next(self.path.glob(f"*/{passed_genome}")).absolute()
+            src = next(self.path.glob(f"*/*/*/{passed_genome}")).absolute()
             dst = (self.paths.qc / passed_genome).absolute()
             try:
                 dst.symlink_to(src)
