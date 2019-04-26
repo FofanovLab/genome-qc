@@ -43,6 +43,7 @@ class Species(object):
 
     path = attr.ib(default=Path(), converter=Path)
     max_unknowns = attr.ib(default=200)
+    # TODO These are really about attrib names
     contigs = attr.ib(default=3.0)
     assembly_size = attr.ib(default=3.0)
     mash = attr.ib(default=3.0)
@@ -220,14 +221,12 @@ class Species(object):
             ]
         self.passed = self.stats.drop(self.failed["unknowns"])
 
-    # Perform this logic in self.filter
-    # Don't use decorator
+    # TODO Don't use decorator; perform this logic in self.filter
     def check_passed_count(f):
         """
         Count the number of genomes in self.passed.
         Commence with filtering only if self.passed has more than five genomes.
         """
-
         @functools.wraps(f)
         def wrapper(self, *args):
             if len(self.passed) > 5:
@@ -236,7 +235,6 @@ class Species(object):
                 self.allowed[args[0]] = ""
                 self.failed[args[0]] = ""
                 self.log.info("Not filtering based on {}".format(f.__name__))
-
         return wrapper
 
     # todo remove unnecessary criteria parameter
@@ -246,7 +244,6 @@ class Species(object):
         Only look at genomes with > 10 contigs to avoid throwing off the median absolute deviation.
         Median absolute deviation - Average absolute difference between number of contigs and the
         median for all genomes. Extract genomes with < 10 contigs to add them back in later.
-        Add genomes with < 10 contigs back in.
         """
         eligible_contigs = self.passed.contigs[self.passed.contigs > 10]
         not_enough_contigs = self.passed.contigs[self.passed.contigs <= 10]
@@ -275,6 +272,7 @@ class Species(object):
         Passing values fall within a lower and upper bound.
         """
         # Get the median absolute deviation
+
         med_abs_dev = abs(self.passed[criteria] - self.passed[criteria].median()).mean()
         dev_ref = med_abs_dev * self.tolerance[criteria]
         lower = self.passed[criteria].median() - dev_ref
@@ -351,6 +349,7 @@ class Species(object):
             allowed = TextFace(self.allowed[criteria], fsize=8)
             allowed.margin_bottom = 5
             allowed.margin_right = 25
+            # TODO Prevent tolerance from rendering as a float
             tolerance = TextFace(self.tolerance[criteria], fsize=8)
             tolerance.margin_bottom = 5
             ts.legend.add_face(title, column=i)
