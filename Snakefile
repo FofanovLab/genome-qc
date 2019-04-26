@@ -72,11 +72,11 @@ rule dist:
 
 rule mean_dist:
     input: dmx=os.path.join(section_dir, "all.dmx")
-    output: mean_dist=os.path.join(section_dir, "mean_distance.txt")
+    output: mean_dist=os.path.join(section_dir, "mean_distance.csv")
     script: "scripts/dmx.py"
 
 rule genome_stats:
-    input: mean_dist=os.path.join(section_dir, "mean_distance.txt"),
+    input: mean_dist=os.path.join(section_dir, "mean_distance.csv"),
            fasta=os.path.join(group_dir, "{fasta_path}.fna.gz")
     output: os.path.join(group_dir, "{fasta_path}.fna.gz.csv")
     script: "scripts/genome_stats.py"
