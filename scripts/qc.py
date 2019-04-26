@@ -480,10 +480,8 @@ class Species(object):
             self.log.exception("Metadata failed")
 
 
-stats = pd.concat([pd.read_csv(f, index_col=0, header=None) for f in snakemake.input.stats_paths])
-# TODO The order is weird here.  See get_stats in genome_stats.py
-stats.columns = ["contigs", "assembly_size", "distance", "unknowns"]
-species = Species(group_dir)
+stats = pd.concat([pd.read_csv(f, index_col=0) for f in snakemake.input.stats_paths])
+species = Species(outdir)
 species.stats = stats
 dmx = pd.read_csv(snakemake.input.dmx, index_col=0, sep="\t")
 species.dmx = dmx
