@@ -63,11 +63,11 @@ class Genome:
             "distance": self.distance,
         }
         self.stats = pd.DataFrame(data, index=[self.name])
-        self.stats.to_csv(snakemake.input.fasta + ".csv", header=False)
+        self.stats.to_csv(snakemake.input.fasta + ".csv")
 
 
 genome = Genome(snakemake.input.fasta)
-# TODO Reading this csv for every genome can be avoided
+# TODO Reading this csv for every genome can/should be avoided
 # Remove the get_distance function
 # Only get other stats
 # Fill the distance column at the next step
