@@ -1,4 +1,4 @@
-import pdb
+
 from pathlib import Path
 
 root = Path(f"{snakemake.config['outdir']}")
