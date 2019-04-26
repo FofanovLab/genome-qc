@@ -1,6 +1,5 @@
 import os
 import re
-import pickle
 import functools
 from itertools import chain
 
@@ -382,8 +381,6 @@ class Species(object):
         self.filter_contigs("contigs")
         self.filter_MAD_range("assembly_size")
         self.filter_MAD_upper("distance")
-        with open(self.allowed_path, "wb") as p:
-            pickle.dump(self.allowed, p)
         self.summary()
         self.write_failed_report()
 
