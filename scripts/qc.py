@@ -326,10 +326,10 @@ class Species(object):
         title_face.margin_bottom = 10
         ts.title.add_face(title_face, column=0)
         ts.branch_vertical_margin = 10
-        ts.show_leaf_name = False
+        ts.show_leaf_name = True
         # Legend
         ts.legend.add_face(TextFace(""), column=1)
-        for category in ["Allowed", "Tolerance", "Filtered", "Color"]:
+        for category in ["Allowed", "Deviations", "Filtered", "Color"]:
             category = TextFace(category, fsize=8, bold=True)
             category.margin_bottom = 2
             category.margin_right = 40
