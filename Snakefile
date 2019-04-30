@@ -61,8 +61,12 @@ rule sketch:
 
 rule paste:
     input: sketch_paths
-    output: os.path.join(section_dir, "all.msh")
-    shell: "mash paste {output} {input}"
+    output:
+        paste=os.path.join(section_dir, "all.msh"),
+        sketches=os.path.join(section_dir, "sketches.txt")
+    shell:
+        "find {section_dir} -type f -name '*fna.gz.msh' > {output.sketches} &&"
+        "mash paste {output.paste} -l {output.sketches}"
 
 rule dist:
     input: os.path.join(section_dir, "all.msh")
