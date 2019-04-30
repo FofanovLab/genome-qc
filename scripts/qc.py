@@ -120,18 +120,6 @@ class Species(object):
 
         return wrapper
 
-    def tree_complete(self):
-        try:
-            leaf_names = [re.sub(".fasta", "", i) for i in self.tree.get_leaf_names()]
-            assert (
-                sorted(leaf_names)
-                == sorted(self.stats.index.tolist())
-                == sorted(self.genome_names.tolist())
-            )
-            return True
-        except (AssertionError, AttributeError):
-            return False
-
     @property
     def genome_paths(self, ext="fasta"):
         """Returns a generator for every file ending with `ext`
@@ -176,24 +164,23 @@ class Species(object):
 
 
     def get_tree(self):
-        if not self.tree_complete():
-            from ete3.coretype.tree import TreeError
-            import numpy as np
-            from skbio.tree import TreeNode
-            from scipy.cluster.hierarchy import weighted
+        from ete3.coretype.tree import TreeError
+        import numpy as np
+        from skbio.tree import TreeNode
+        from scipy.cluster.hierarchy import weighted
 
-            ids = self.dmx.index.tolist()
-            triu = np.triu(self.dmx.as_matrix())
-            hclust = weighted(triu)
-            t = TreeNode.from_linkage_matrix(hclust, ids)
-            nw = t.__str__().replace("'", "")
-            self.tree = Tree(nw)
-            try:
-                # midpoint root tree
-                self.tree.set_outgroup(self.tree.get_midpoint_outgroup())
-            except TreeError:
-                self.log.error("Unable to midpoint root tree")
-            self.tree.write(outfile=self.nw_path)
+        ids = self.dmx.index.tolist()
+        triu = np.triu(self.dmx.as_matrix())
+        hclust = weighted(triu)
+        t = TreeNode.from_linkage_matrix(hclust, ids)
+        nw = t.__str__().replace("'", "")
+        self.tree = Tree(nw)
+        try:
+            # midpoint root tree
+            self.tree.set_outgroup(self.tree.get_midpoint_outgroup())
+        except TreeError:
+            self.log.error("Unable to midpoint root tree")
+        self.tree.write(outfile=self.nw_path)
 
     @property
     def stats_files(self):
