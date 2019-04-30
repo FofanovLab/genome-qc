@@ -60,17 +60,21 @@ def parse_sample_data(sample_data):
     return data
 
 
-xml = snakemake.input[0]
-frames = []
-with open(xml) as f:
-    # TODO Use takewhile here to chunk file based on valid xml
-    root = ET.parse(xml)
-    for tree in root.findall("DocumentSummary"):
-        sample_data = tree.find("SampleData/BioSample")
-        data = parse_sample_data(sample_data)
-        frames.append(data)
+# with open(xml) as f:
+#     root = ET.parse(xml)
+#     for tree in root.findall("DocumentSummary"):
+#         sample_data = tree.find("SampleData/BioSample")
+#         data = parse_sample_data(sample_data)
+#         frames.append(data)
+data = []
+with open(snakemake.input[0]) as f:
+    for line in f:
+        iter1, iter2 = [iter(line.strip().split('\t'))] * 2
+        pairs = zip(iter1, iter2)
+        data.append(dict(pairs))
 
-df = pd.concat([pd.DataFrame(frame, index=[frame["BioSample"]]) for frame in frames])
+df = pd.DataFrame(data)
+# df = pd.concat([pd.DataFrame(frame, index=[frame["BioSample"]]) for frame in data])
 df.set_index("BioSample", inplace=True)
 df.to_csv(snakemake.output[0])
 sra = df.SRA[df.SRA.notnull()]

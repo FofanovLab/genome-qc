@@ -99,6 +99,7 @@ rule rename:
     script: "scripts/rename.py"
 
 rule join_metadata:
+rule metadata:
     input: os.path.join(outdir, "runs.csv")
     output: os.path.join(outdir, "metadata.csv")
     script: "scripts/join_metadata.py"
@@ -108,8 +109,13 @@ rule biosample:
     output: os.path.join(outdir, "biosample.xml")
     shell: "bash scripts/biosample.sh {input} {output}"
 
-rule parse_biosample:
+rule xtract_biosample:
     input: os.path.join(outdir, "biosample.xml")
+    output: os.path.join(outdir, "_biosample.tsv")
+    shell: "bash scripts/xtract_biosample.sh {input} {output}"
+
+rule parse_biosample:
+    input: os.path.join(outdir, "_biosample.tsv")
     output:
         os.path.join(outdir, "biosample.csv"),
         os.path.join(outdir, "sra.csv")
