@@ -94,7 +94,6 @@ rule rename:
     # input: directory(os.path.join(group_dir, "qc"))
     script: "scripts/rename.py"
 
-rule join_metadata:
 rule metadata:
     input: os.path.join(outdir, "runs.csv")
     output: os.path.join(outdir, "metadata.csv")
