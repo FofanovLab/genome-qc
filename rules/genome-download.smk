@@ -1,3 +1,6 @@
+assembly_level = config["assembly_level"]
+format = config["format"]
+
 checkpoint download:
     threads: 16
     conda: "../envs/ncbi-genome-download.yaml"
