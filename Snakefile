@@ -6,13 +6,13 @@ configfile: "config.yaml"
 
 species = config["species"]
 taxid = config["taxid"]
-outdir = Path(config["outdir"]) / species
 section = config["section"]
 group = config["group"]
-section_dir = os.path.join(outdir, section)
-group_dir = os.path.join(outdir, section, group)
 threads = config["threads"]
 
+outdir = Path(config["outdir"]) / species
+section_dir = outdir / section
+group_dir = section_dir / group
 
 
 rule all:
