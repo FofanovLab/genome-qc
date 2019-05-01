@@ -21,7 +21,8 @@ rule qc:
     output: os.path.join(outdir, "qc", "tree.svg")
     script: "../scripts/qc.py"
 
+#TODO Should be configured to happen before the tree is generated
+# Otherwise, labels in tree nodes are set to accession IDs
 rule rename:
-    # input: directory(os.path.join(group_dir, "qc"))
     script: "../scripts/rename.py"
 
