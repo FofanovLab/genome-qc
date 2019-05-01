@@ -1,5 +1,5 @@
 checkpoint download:
-    threads: 8
+    threads: 16
     conda: "../envs/ncbi-genome-download.yaml"
     output:
           directory(group_dir),
