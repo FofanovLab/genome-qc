@@ -61,7 +61,7 @@ def rename_genome(genome, assembly_summary):
 
 
 summary = pd.read_csv(outdir / 'summary.tsv', sep="\t", index_col=0)
-genomes = (Path(group_dir) / "qc").glob("*fna.gz")
+genomes = (Path(outdir) / "qc").glob("*fna.gz")
 for genome in genomes:
     renamed = rename_genome(genome.as_posix(), summary)
     renamed = (genome.parent / renamed).absolute()
