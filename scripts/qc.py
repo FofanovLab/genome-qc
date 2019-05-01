@@ -69,7 +69,6 @@ class Species(object):
         self.dmx_path = os.path.join(self.paths.qc, "dmx.csv")
         self.failed_path = os.path.join(self.paths.qc, "failed.csv")
         self.summary_path = os.path.join(self.paths.qc, "qc_summary.txt")
-        self.allowed_path = os.path.join(self.paths.qc, "allowed.p")
         self.paste_file = os.path.join(self.paths.qc, "all.msh")
         # Figure out if defining these as None is necessary
         self.tree = None
@@ -105,20 +104,6 @@ class Species(object):
             "MASH: {}".format(self.mash),
         ]
         return "\n".join(self.message)
-
-    def assess(f):
-        @functools.wraps(f)
-        def wrapper(self):
-            try:
-                assert sorted(self.genome_names.tolist()) == sorted(
-                    self.stats.index.tolist()
-                )
-                assert os.path.isfile(self.allowed_path)
-                self.log.info("Already complete")
-            except (AttributeError, AssertionError):
-                f(self)
-
-        return wrapper
 
     @property
     def genome_paths(self, ext="fasta"):
@@ -419,7 +404,6 @@ class Species(object):
             except FileExistsError:
                 continue
 
-    @assess
     def qc(self):
         self.filter()
         self.link_genomes()
