@@ -29,18 +29,6 @@ def stats_paths(wc):
 rule all:
     input: os.path.join(outdir, "qc", "tree.svg")
 
-checkpoint download:
-    threads: 8
-    conda: "./envs/ncbi-genome-download.yaml"
-    output:
-          directory(group_dir),
-          metadata=os.path.join(outdir, "summary.tsv")
-    shell:
-         "ncbi-genome-download -o '{outdir}' -m '{output.metadata}' "
-         "-p {threads} --section {section} -F {format} "
-         "--assembly-level {assembly_level} "
-         "--species-taxid {taxid} {group}"
-
 rule genome_stats:
     input: mean_dist=os.path.join(section_dir, "mean_distance.csv"),
            fasta=os.path.join(group_dir, "{fasta_path}.fna.gz")
@@ -87,4 +75,6 @@ rule sra:
     output: os.path.join(outdir, "runs.csv")
     shell: "bash scripts/sra.sh {input} {output}"
 
+
+include: "rules/genome-download.smk"
 include: "rules/mash.smk"
