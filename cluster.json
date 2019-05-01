@@ -2,8 +2,19 @@
     "__default__" :
     {
         "account" : "aas229",
-        "p" : "all",
-        "time" : "00:01:00",
-        "n" : 4
+        "mail_type" : "FAIL,END",
+        "mail_user" : "inbox.asanchez@gmail.com",
+        "output"    : "logs/slurm/{rule}.{wildcards}.$SLURM_ARRAY_JOB_ID.out",
+        "error"     : "logs/slurm/{rule}.{wildcards}.$SLURM_ARRAY_JOB_ID.err",
+        "time" : "00:1:00",
+        "ntasks" : 1,
+        "mem" : 1000,
+        "p" : "all"
+    },
+    "download" :
+    {
+        "ntasks" : 16,
+        "mem" : 1000,
+        "p" : "all"
     }
 }
