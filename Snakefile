@@ -29,25 +29,6 @@ def stats_paths(wc):
 rule all:
     input: os.path.join(outdir, "qc", "tree.svg")
 
-rule genome_stats:
-    input: mean_dist=os.path.join(section_dir, "mean_distance.csv"),
-           fasta=os.path.join(group_dir, "{fasta_path}.fna.gz")
-    output: os.path.join(group_dir, "{fasta_path}.fna.gz.csv")
-    script: "scripts/genome_stats.py"
-
-rule qc:
-    input:
-        stats_paths=stats_paths,
-        dmx=os.path.join(section_dir, "all.dmx")
-    # TODO Move qc and results elsewhere
-    #  This messes up globbing the fastas because glob finds fastas in qc dir
-    output: os.path.join(outdir, "qc", "tree.svg")
-    script: "scripts/qc.py"
-
-rule rename:
-    # input: directory(os.path.join(group_dir, "qc"))
-    script: "scripts/rename.py"
-
 rule metadata:
     input: os.path.join(outdir, "runs.csv")
     output: os.path.join(outdir, "metadata.csv")
@@ -78,3 +59,4 @@ rule sra:
 
 include: "rules/genome-download.smk"
 include: "rules/mash.smk"
+include: "rules/qc.smk"
