@@ -15,6 +15,15 @@
     {
         "ntasks" : 16,
         "mem" : 1000,
-        "p" : "all"
+    },
+    "paste" :
+    {
+        "ntasks" : 16,
+        "mem" : 1000,
+    },
+    "dist" :
+    {
+        "ntasks" : 16,
+        "mem" : 1000,
     }
 }
