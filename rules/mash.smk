@@ -22,6 +22,8 @@ rule paste:
         "find {section_dir} -type f -name '*fna.gz.msh' > {output.sketches} &&"
         "mash paste {output.paste} -l {output.sketches}"
 
+#TODO Consider avoiding sketch/paste and just giving fastas
+# straight to mash dist
 rule dist:
     input: os.path.join(section_dir, "all.msh")
     output: os.path.join(section_dir, "all.dmx")
