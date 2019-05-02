@@ -3,6 +3,6 @@ group: "bacteria"
 section: "genbank"
 assembly_level: "complete"
 format: "fasta"
-threads: 8
+threads: 32
 species: "Buchnera_aphidicola"
 taxid: "9"
