@@ -18,6 +18,10 @@ import genbankqc.genome as genome
 
 species = snakemake.config["species"]
 outdir = Path(snakemake.config["outdir"]) / species
+fastas = (
+    outdir / snakemake.config["section"],
+    snakemake.config["group"],
+).rglob("GCA*fna.gz")
 
 CRITERIA = ["unknowns", "contigs", "assembly_size", "distance"]
 
@@ -449,10 +453,10 @@ class Species(object):
         except KeyError:
             self.log.exception("Metadata failed")
 
-
-stats = pd.concat([pd.read_csv(f, index_col=0) for f in snakemake.input.stats_paths])
-species = Species(outdir)
-species.stats = stats
-dmx = pd.read_csv(snakemake.input.dmx, index_col=0, sep="\t")
-species.dmx = dmx
-species.qc()
+if len(list(fastas)) >= 10:
+    stats = pd.concat([pd.read_csv(f, index_col=0) for f in snakemake.input.stats_paths])
+    species = Species(outdir)
+    species.stats = stats
+    dmx = pd.read_csv(snakemake.input.dmx, index_col=0, sep="\t")
+    species.dmx = dmx
+    species.qc()
