@@ -2,8 +2,9 @@ assembly_level = config["assembly_level"]
 format = config["format"]
 
 checkpoint download:
-    threads: 16
+    threads: 8
     conda: "../envs/ncbi-genome-download.yaml"
+    log: os.path.join(outdir, "logs", "download.log")
     output:
           directory(group_dir),
           metadata=os.path.join(outdir, "summary.tsv")
