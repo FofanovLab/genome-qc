@@ -1,4 +1,6 @@
+import re
 from pathlib import Path
+from common.rename import *
 
 
 with open("./species_and_taxids.txt") as f:
@@ -6,7 +8,7 @@ with open("./species_and_taxids.txt") as f:
 pairs = (i for i in pairs if len(i) == 2)
 
 
-commands = Path("./commands.txt")
+commands = Path("./commands.sh")
 try:
     commands.unlink()
 except FileNotFoundError:
@@ -14,9 +16,13 @@ except FileNotFoundError:
 
 with commands.open("a") as f:
     for p in pairs:
-        species = p[0].replace(" ", "_")
         taxid = p[1]
+        name = p[0].replace(" ", "_")
+        name = name.replace(" ", "_")
+        name = re.sub('[\W]+', '_', name)
+        name = rm_duplicates(filter(None, name.split('_')))
+        name = '_'.join(name)
         f.write(
-            "srun -o %J.out snakemake -q -j 999 --use-conda --config "
-             f"species='{species}' taxid={taxid} threads=32\n"
+            "/home/aas229/miniconda/envs/genbankqc/bin/snakemake -j 8 --use-conda --config "
+             f"species='{name}' taxid={taxid} threads=32 -- download\n"
         )
