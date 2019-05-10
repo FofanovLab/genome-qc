@@ -6,24 +6,38 @@
         "mail_user" : "inbox.asanchez@gmail.com",
         "output"    : "logs/slurm/{rule}.{wildcards}.$SLURM_ARRAY_JOB_ID.out",
         "error"     : "logs/slurm/{rule}.{wildcards}.$SLURM_ARRAY_JOB_ID.err",
-        "time" : "00:1:00",
         "ntasks" : 1,
-        "mem" : 1000,
+        "mem" : 300,
         "p" : "all"
     },
     "download" :
     {
         "ntasks" : 16,
-        "mem" : 1000,
+        "mem" : 200
+    },
+    "sketch" :
+    {
+        "ntasks" : 1,
+        "time" : "00:05",
+        "mem" : 100
+    },
+    "genome_stats" :
+    {
+        "ntasks" : 1,
+        "time" : "00:05",
+        "mem" : 100
     },
     "paste" :
     {
-        "ntasks" : 16,
-        "mem" : 1000,
+        "mem" : 1000
     },
     "dist" :
     {
-        "ntasks" : 16,
-        "mem" : 1000,
+        "ntasks" : 32,
+        "mem" : 1000
+    },
+    "qc" :
+    {
+        "mem" : 2000
     }
 }
