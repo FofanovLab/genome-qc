@@ -3,7 +3,6 @@ format = config["format"]
 
 checkpoint download:
     threads: 8
-    conda: "../envs/ncbi-genome-download.yaml"
     log: os.path.join(outdir, "logs", "download.log")
     output:
           directory(group_dir),
