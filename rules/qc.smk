@@ -20,9 +20,3 @@ rule qc:
          dmx=os.path.join(section_dir, "all.dmx")
     output: os.path.join(outdir, "qc", "tree.svg")
     script: "../scripts/qc.py"
-
-# TODO Should be configured to happen before the tree is generated
-# Otherwise, labels in tree nodes are set to accession IDs
-rule rename:
-    script: "../scripts/rename.py"
-
