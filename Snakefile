@@ -16,7 +16,8 @@ group_dir = section_dir / group
 
 
 rule all:
-    input: os.path.join(outdir, "qc", "tree.svg")
+    input:
+        os.path.join(outdir, "qc", "tree.svg"),
 
 
 include: "rules/genome-download.smk"

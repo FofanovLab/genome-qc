@@ -18,9 +18,9 @@ import genbankqc.genome as genome
 
 species = snakemake.config["species"]
 outdir = Path(snakemake.config["outdir"]) / species
-fastas = (outdir / snakemake.config["section"] / snakemake.config["group"])
+fastas = outdir / snakemake.config["section"] / snakemake.config["group"]
 fastas = fastas.rglob("GCA*fna.gz")
-summary = pd.read_csv(outdir / 'summary.tsv', sep="\t", index_col=0)
+summary = pd.read_csv(outdir / "summary.tsv", sep="\t", index_col=0)
 
 
 CRITERIA = ["unknowns", "contigs", "assembly_size", "distance"]
@@ -144,7 +144,6 @@ class Species(object):
         ids = [i.accession_id for i in self.genomes if i.accession_id is not None]
         return ids
 
-
     def get_tree(self):
         from ete3.coretype.tree import TreeError
         import numpy as np
@@ -187,7 +186,7 @@ class Species(object):
         """Filter out genomes with too many unknown bases."""
         self.failed["unknowns"] = self.stats.index[
             self.stats["unknowns"] > self.tolerance["unknowns"]
-            ]
+        ]
         self.passed = self.stats.drop(self.failed["unknowns"])
 
     # TODO Don't use decorator; perform this logic in self.filter
@@ -196,6 +195,7 @@ class Species(object):
         Count the number of genomes in self.passed.
         Commence with filtering only if self.passed has more than five genomes.
         """
+
         @functools.wraps(f)
         def wrapper(self, *args):
             if len(self.passed) > 5:
@@ -204,6 +204,7 @@ class Species(object):
                 self.allowed[args[0]] = ""
                 self.failed[args[0]] = ""
                 self.log.info("Not filtering based on {}".format(f.__name__))
+
         return wrapper
 
     # todo remove unnecessary criteria parameter
@@ -226,10 +227,10 @@ class Species(object):
         self.allowed["contigs"] = eligible_contigs.median() + dev_ref
         self.failed["contigs"] = eligible_contigs[
             abs(eligible_contigs - eligible_contigs.median()) > dev_ref
-            ].index
+        ].index
         eligible_contigs = eligible_contigs[
             abs(eligible_contigs - eligible_contigs.median()) <= dev_ref
-            ]
+        ]
         eligible_contigs = pd.concat([eligible_contigs, not_enough_contigs])
         eligible_contigs = eligible_contigs.index
         self.passed = self.passed.loc[eligible_contigs]
@@ -251,10 +252,10 @@ class Species(object):
         self.allowed[criteria] = allowed_range
         self.failed[criteria] = self.passed[
             abs(self.passed[criteria] - self.passed[criteria].median()) > dev_ref
-            ].index
+        ].index
         self.passed = self.passed[
             abs(self.passed[criteria] - self.passed[criteria].median()) <= dev_ref
-            ]
+        ]
 
     @check_passed_count
     def filter_MAD_upper(self, criteria):
@@ -291,7 +292,7 @@ class Species(object):
         from ete3 import TreeStyle, TextFace, CircleFace
 
         ts = TreeStyle()
-        title_face = TextFace(snakemake.config['species'].replace("_", " "), fsize=20)
+        title_face = TextFace(snakemake.config["species"].replace("_", " "), fsize=20)
         title_face.margin_bottom = 10
         ts.title.add_face(title_face, column=0)
         ts.branch_vertical_margin = 10
@@ -416,8 +417,11 @@ class Species(object):
         except KeyError:
             self.log.exception("Metadata failed")
 
+
 if len(list(fastas)) >= 10:
-    stats = pd.concat([pd.read_csv(f, index_col=0) for f in snakemake.input.stats_paths])
+    stats = pd.concat(
+        [pd.read_csv(f, index_col=0) for f in snakemake.input.stats_paths]
+    )
     species = Species(outdir)
     species.stats = stats
     dmx = pd.read_csv(snakemake.input.dmx, index_col=0, sep="\t")

@@ -27,15 +27,15 @@ class Genome:
         return re.search("GCA_[0-9]*.[0-9]", name).group()
 
     def get_contigs(self):
-            """Get a list of of Seq objects for genome and calculate
+        """Get a list of of Seq objects for genome and calculate
             the total the number of contigs.
             """
-            try:
-                with gzip.open(self.path, "rt") as handle:
-                    self.contigs = [seq.seq for seq in SeqIO.parse(handle, "fasta")]
-                self.count_contigs = len(self.contigs)
-            except UnicodeDecodeError:
-                self.log.exception()
+        try:
+            with gzip.open(self.path, "rt") as handle:
+                self.contigs = [seq.seq for seq in SeqIO.parse(handle, "fasta")]
+            self.count_contigs = len(self.contigs)
+        except UnicodeDecodeError:
+            self.log.exception()
 
     def get_assembly_size(self):
         """Calculate the sum of all contig lengths"""

@@ -4,7 +4,8 @@ def stats_paths(wc):
     globbed = glob_wildcards(p)
     expanded = expand(
         os.path.join(group_dir, "{fasta_path}.fna.gz.csv"),
-        fasta_path=globbed.fasta_path)
+        fasta_path=globbed.fasta_path
+    )
     return expanded
 
 

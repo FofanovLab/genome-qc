@@ -19,10 +19,10 @@ with commands.open("a") as f:
         taxid = p[1]
         name = p[0].replace(" ", "_")
         name = name.replace(" ", "_")
-        name = re.sub('[\W]+', '_', name)
-        name = rm_duplicates(filter(None, name.split('_')))
-        name = '_'.join(name)
+        name = re.sub("[\W]+", "_", name)
+        name = rm_duplicates(filter(None, name.split("_")))
+        name = "_".join(name)
         f.write(
             "/home/aas229/miniconda/envs/genbankqc/bin/snakemake -j 8 --use-conda --config "
-             f"species='{name}' taxid={taxid} threads=32 -- download\n"
+            f"species='{name}' taxid={taxid} threads=32 -- download\n"
         )

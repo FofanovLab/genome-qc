@@ -27,16 +27,12 @@ ATTRIBUTES = [
     "host_sex",
     "serotype",
     "host_disease_outcome",
-    ]
+]
 
 db_xp = '[@db="{}"]'
 xp_tups = []
 for attrib in ATTRIBUTES:
-    xp_tups.append((attrib,
-                    "harmonized_name",
-                    '[@harmonized_name="{}"]',
-                    )
-                   )
+    xp_tups.append((attrib, "harmonized_name", '[@harmonized_name="{}"]'))
 
 
 def parse_sample_data(sample_data):
@@ -69,7 +65,7 @@ def parse_sample_data(sample_data):
 data = []
 with open(snakemake.input[0]) as f:
     for line in f:
-        iter1, iter2 = [iter(line.strip().split('\t'))] * 2
+        iter1, iter2 = [iter(line.strip().split("\t"))] * 2
         pairs = zip(iter1, iter2)
         data.append(dict(pairs))
 
