@@ -395,7 +395,8 @@ class Species(object):
     def link_genomes(self):
         for passed_genome in self.passed.index:
             src = next(self.path.glob(f"*/*/*/{passed_genome}")).absolute()
-            dst = (self.paths.qc / passed_genome).absolute()
+            name = rename_genome(passed_genome, summary)
+            dst = (self.paths.qc / name).absolute()
             try:
                 dst.symlink_to(src)
             except FileExistsError:
