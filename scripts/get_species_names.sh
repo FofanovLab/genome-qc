@@ -2,12 +2,11 @@
 
 # Get values from species_taxid (column 7)
 # Skip the first two lines as they contain a comment and column names
-cut -f 7 ~/.cache/ncbi-genome-download/genbank_bacteria_assembly_summary.txt| tail -n +3 |
-sort | uniq > GenBankQC/species_taxids.txt
+cut -f 7 resources/assembly_summary.txt| tail -n +3 |
+sort | uniq > resources/taxids.txt
 
-mkdir GenBankQC/names
-epost -db taxonomy -input GenBankQC/species_taxids.txt | \
-    efetch -format docsum | \
-        xtract -pattern DocumentSummary \
-         -group DocumentSummary -element ScientificName -element Id \
-          | sort > GenBankQC/species_and_taxids.txt
+epost -db taxonomy -input resources/taxids.txt |
+efetch -format docsum |
+xtract -pattern DocumentSummary \
+-group DocumentSummary -element ScientificName -element Id |
+sort > resources/names_and_taxids.txt

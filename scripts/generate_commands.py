@@ -3,7 +3,7 @@ from pathlib import Path
 from common.rename import *
 
 
-with open("./species_and_taxids.txt") as f:
+with open("./resources/names_and_taxids.txt") as f:
     pairs = (i.strip().split("\t") for i in f.readlines())
 pairs = (i for i in pairs if len(i) == 2)
 
@@ -23,6 +23,6 @@ with commands.open("a") as f:
         name = rm_duplicates(filter(None, name.split("_")))
         name = "_".join(name)
         f.write(
-            "/home/aas229/miniconda/envs/genbankqc/bin/snakemake -j 8 --use-conda --config "
+            "snakemake -j 8 --config "
             f"species='{name}' taxid={taxid} threads=32 -- download\n"
         )
