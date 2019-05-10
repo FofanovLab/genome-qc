@@ -408,37 +408,6 @@ class Species(object):
         self.get_tree()
         self.color_tree()
         self.log.info("QC finished")
-        # self.report()
-
-    def report(self):
-        try:
-            assert (
-                self.total_genomes == self.total_sketches == len(list(self.stats_files))
-            )
-        except AssertionError:
-            from itertools import combinations
-
-            self.log.error("File counts do not match up.")
-            self.log.error(f"{self.total_genomes} total .fasta files")
-            self.log.error(f"{self.total_sketches} total sketch .msh files")
-            self.log.error(f"{len(list(self.stats_files))} total stats .csv files")
-            sketches = [genome.Genome.id_(i.as_posix()) for i in self.sketches]
-            stats = [genome.Genome.id_(i.as_posix()) for i in self.stats_files]
-            genome_ids = [i.accession_id for i in self.genomes]
-            ids = [genome_ids, sketches, stats]
-            for a, b in combinations(ids, 2):
-                diff = set(a) - set(b)
-                if bool(diff):
-                    for i in diff:
-                        self.log.error(i)
-        try:
-            assert Path(self.dmx_path).stat().st_size  # Check if dmx is empty
-        except AssertionError:
-            self.log.error("Distance matrix is empty")
-        try:
-            assert Path(self.paths.passed).iterdir()
-        except AssertionError:
-            self.log.error("Passed directory is empty")
 
     def select_metadata(self, metadata):
         try:
