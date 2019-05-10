@@ -12,16 +12,16 @@ import pandas as pd
 
 from ete3 import Tree
 from genbankqc import config
+from common.rename import *
 import genbankqc.genome as genome
-
 
 
 species = snakemake.config["species"]
 outdir = Path(snakemake.config["outdir"]) / species
-fastas = (
-    outdir / snakemake.config["section"],
-    snakemake.config["group"],
-).rglob("GCA*fna.gz")
+fastas = (outdir / snakemake.config["section"] / snakemake.config["group"])
+fastas = fastas.rglob("GCA*fna.gz")
+summary = pd.read_csv(outdir / 'summary.tsv', sep="\t", index_col=0)
+
 
 CRITERIA = ["unknowns", "contigs", "assembly_size", "distance"]
 
