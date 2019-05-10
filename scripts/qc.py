@@ -94,9 +94,6 @@ class Species(object):
         self.med_abs_devs = {}
         self.dev_refs = {}
         self.allowed = {"unknowns": self.max_unknowns}
-        self.genomes = [
-            genome.Genome(path, self.assembly_summary) for path in self.genome_paths
-        ]
 
     def __str__(self):
         self.message = [
@@ -122,10 +119,6 @@ class Species(object):
             for genome in os.listdir(self.path)
             if genome.endswith(ext)
         ]
-
-    @property
-    def total_genomes(self):
-        return len(list(self.genomes))
 
     @property
     def sketches(self):
