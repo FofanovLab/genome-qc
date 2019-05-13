@@ -4,13 +4,15 @@ from pathlib import Path
 configfile: "config.yaml"
 
 
+genus = config["genus"]
 species = config["species"]
 taxid = config["taxid"]
 section = config["section"]
 group = config["group"]
 threads = config["threads"]
 
-outdir = Path(config["outdir"]) / species
+root = Path(config["root"])
+outdir = root / "human_readable" / section / group / genus / species
 section_dir = outdir / section
 group_dir = section_dir / group
 
