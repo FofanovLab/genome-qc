@@ -22,7 +22,12 @@ with commands.open("a") as f:
         name = re.sub("[\W]+", "_", name)
         name = rm_duplicates(filter(None, name.split("_")))
         name = "_".join(name)
+        # f.write(
+        #     "snakemake -j 8 --config "
+        #     f"species='{name}' taxid={taxid} threads=32 download\n"
+        # )
+        f.write(f"mkdir '{species}'\n" )
         f.write(
-            "snakemake -j 8 --config "
-            f"species='{name}' taxid={taxid} threads=32 -- download\n"
+            "ncbi-genome-download -v -m 'summary.tsv' -p 12 -s genbank "
+            f"-T {taxid} -F fasta -l 'complete,contig,chromosome,scaffold' bacteria\n"
         )
