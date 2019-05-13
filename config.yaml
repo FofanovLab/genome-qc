@@ -1,7 +1,7 @@
 outdir: "GenBankQC"
 group: "bacteria"
 section: "genbank"
-assembly_level: "complete"
+assembly_level: "complete,contig,chromosome,scaffold"
 format: "fasta"
 threads: 32
 species: "Buchnera_aphidicola"
