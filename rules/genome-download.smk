@@ -3,13 +3,11 @@ format = config["format"]
 
 checkpoint download:
     threads: 16
-    log: os.path.join(outdir, "logs", "download.log")
     output:
-          directory(group_dir),
-          metadata=os.path.join(outdir, "summary.tsv")
+          outdir=directory(outdir)
     shell:
-         "ncbi-genome-download -o '{outdir}' -m '{output.metadata}' "
+         "ncbi-genome-download -H -o {root} "
          "-p {threads} --section {section} -F {format} "
-         "--assembly-level {assembly_level} "
+         "--assembly-level '{assembly_level}' "
          "--species-taxid {taxid} {group}"
 
