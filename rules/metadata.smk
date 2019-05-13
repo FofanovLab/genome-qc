@@ -33,6 +33,6 @@ rule summary:
 
 rule names:
     input: "resources/assembly_summary.txt"
-    output: "resources/taxids.txt", "resources/names_and_taxids.txt"
-    shell: "sh scripts/get_species_names.sh && [[ -s {output[1]} ]]"
+    output: "resources/names_and_taxids.txt"
+    shell: "sh scripts/get_species_names.sh && [[ -s {output[0]} ]]"
 
