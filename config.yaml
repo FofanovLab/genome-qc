@@ -1,4 +1,4 @@
-root: "GenBankQC"
+root: "genomes"
 group: "bacteria"
 section: "genbank"
 assembly_level: "complete,contig,chromosome,scaffold"
