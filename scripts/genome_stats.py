@@ -9,6 +9,19 @@ from logbook import Logger
 from Bio import SeqIO
 
 
+genus = snakemake.config["genus"]
+species = snakemake.config["species"]
+taxid = snakemake.config["taxid"]
+section = snakemake.config["section"]
+group = snakemake.config["group"]
+threads = snakemake.config["threads"]
+
+root = Path(snakemake.config["root"])
+outdir = root / "human_readable" / section / group / genus / species
+
+out = root / "stats" / f"{genus}_{species}"
+
+
 @attr.s
 class Genome:
     path = attr.ib(default=Path(), converter=Path)
@@ -63,7 +76,8 @@ class Genome:
             "distance": self.distance,
         }
         self.stats = pd.DataFrame(data, index=[self.name])
-        self.stats.to_csv(snakemake.input.fasta + ".csv")
+        name = Path(snakemake.input.fasta).name.replace('fna.gz', 'csv')
+        self.stats.to_csv(snakemake.output[0])
 
 
 genome = Genome(snakemake.input.fasta)
