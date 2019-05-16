@@ -16,11 +16,20 @@ from common.rename import *
 import genbankqc.genome as genome
 
 
+genus = snakemake.config["genus"]
 species = snakemake.config["species"]
-outdir = Path(snakemake.config["outdir"]) / species
-fastas = outdir / snakemake.config["section"] / snakemake.config["group"]
-fastas = fastas.rglob("GCA*fna.gz")
-summary = pd.read_csv(outdir / "summary.tsv", sep="\t", index_col=0)
+taxid = snakemake.config["taxid"]
+section = snakemake.config["section"]
+group = snakemake.config["group"]
+threads = snakemake.config["threads"]
+
+root = Path(snakemake.config["root"])
+outdir = root / "human_readable" / section / group / genus / species
+section_dir = outdir / section
+group_dir = section_dir / group
+
+fastas = outdir.rglob("GCA*fna.gz")
+summary = pd.read_csv(root / "summary.tsv", sep="\t", index_col=0)
 
 
 CRITERIA = ["unknowns", "contigs", "assembly_size", "distance"]
@@ -395,7 +404,8 @@ class Species(object):
 
     def link_genomes(self):
         for passed_genome in self.passed.index:
-            src = next(self.path.glob(f"*/*/*/{passed_genome}")).absolute()
+            src = root / section / group
+            src = next(src.glob(f"*/{passed_genome}")).absolute()
             name = rename_genome(passed_genome, summary)
             dst = (self.paths.qc / name).absolute()
             try:
