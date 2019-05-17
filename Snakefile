@@ -21,6 +21,10 @@ rule all:
     input:
         os.path.join(outdir, "qc", "tree.svg"),
 
+rule commands:
+    output: "scripts/commands.sh"
+    script: "scripts/generate_commands.py"
+
 
 include: "rules/genome-download.smk"
 include: "rules/mash.smk"
