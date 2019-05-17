@@ -72,8 +72,6 @@ class Species(object):
             root=self.path,
             subdirs=[
                 "qc",
-                ("results", f"qc/{self.label}"),
-                ("passed", f"qc/{self.label}/passed"),
                 ".logs",
             ],
         )
