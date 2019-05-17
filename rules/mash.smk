@@ -1,3 +1,5 @@
+from itertools import filterfalse
+
 out = root / "MASH" / f"{genus}_{species}"
 
 
@@ -9,6 +11,8 @@ def sketch_paths(wc):
         os.path.join(outdir, "{fasta_path}.fna.gz.msh"),
         fasta_path=globbed.fasta_path,
     )
+    qc = os.path.join(outdir, "qc")
+    expanded = filterfalse(lambda x: x.startswith(qc), expanded)
     return expanded
 
 rule sketch:

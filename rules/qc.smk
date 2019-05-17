@@ -1,3 +1,6 @@
+from itertools import filterfalse
+
+
 mash_out = root / "MASH" / f"{genus}_{species}"
 
 
@@ -9,6 +12,8 @@ def stats_paths(wc):
         os.path.join(outdir, "{fasta_path}.fna.gz.csv"),
         fasta_path=globbed.fasta_path
     )
+    qc = os.path.join(outdir, "qc")
+    expanded = filterfalse(lambda x: x.startswith(qc), expanded)
     return expanded
 
 
