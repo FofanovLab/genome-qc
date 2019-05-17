@@ -400,6 +400,7 @@ class Species(object):
             f.write(summary)
         return summary
 
+    #TODO Should probably use relative paths here
     def link_genomes(self):
         for passed_genome in self.passed.index:
             id = parse_genome_id(passed_genome)
