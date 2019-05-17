@@ -402,8 +402,9 @@ class Species(object):
 
     def link_genomes(self):
         for passed_genome in self.passed.index:
+            id = parse_genome_id(passed_genome)
             src = root / section / group
-            src = next(src.glob(f"*/{passed_genome}")).absolute()
+            src = (src / f"{id}/{passed_genome}").absolute()
             name = rename_genome(passed_genome, summary)
             dst = (self.paths.qc / name).absolute()
             try:
