@@ -1,33 +1,24 @@
-import re
 from pathlib import Path
 from common.rename import *
 
+root = Path(snakemake.config["root"])
+section = snakemake.config["section"]
+group = snakemake.config["group"]
+outdir = root / "human_readable" / section / group
+pairs = outdir.glob("*/*")
 
-with open("./resources/names_and_taxids.txt") as f:
-    pairs = (i.strip().split("\t") for i in f.readlines())
-pairs = (i for i in pairs if len(i) == 2)
-
-
-commands = Path("./commands.sh")
+commands = Path("scripts/commands.sh")
 try:
     commands.unlink()
 except FileNotFoundError:
     pass
 
+
 with commands.open("a") as f:
     for p in pairs:
-        taxid = p[1]
-        name = p[0].replace(" ", "_")
-        name = name.replace(" ", "_")
-        name = re.sub("[\W]+", "_", name)
-        name = rm_duplicates(filter(None, name.split("_")))
-        name = "_".join(name)
-        # f.write(
-        #     "snakemake -j 8 --config "
-        #     f"species='{name}' taxid={taxid} threads=32 download\n"
-        # )
-        f.write(f"mkdir '{species}'\n" )
+        genus, species = p.parts[-2:]
         f.write(
-            "ncbi-genome-download -v -m 'summary.tsv' -p 12 -s genbank "
-            f"-T {taxid} -F fasta -l 'complete,contig,chromosome,scaffold' bacteria\n"
+            f"snakemake -j 999 --config genus='{genus}' "
+            f"species='{species}' threads=32\n"
         )
+
