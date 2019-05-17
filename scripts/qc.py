@@ -299,7 +299,7 @@ class Species(object):
         from ete3 import TreeStyle, TextFace, CircleFace
 
         ts = TreeStyle()
-        title_face = TextFace(snakemake.config["species"].replace("_", " "), fsize=20)
+        title_face = TextFace(f"{genus} {snakemake.config['species']}", fsize=20)
         title_face.margin_bottom = 10
         ts.title.add_face(title_face, column=0)
         ts.branch_vertical_margin = 10
