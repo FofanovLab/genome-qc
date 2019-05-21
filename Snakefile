@@ -10,6 +10,8 @@ taxid = config["taxid"]
 section = config["section"]
 group = config["group"]
 threads = config["threads"]
+assembly_level = config["assembly_level"]
+format = config["format"]
 
 root = Path(config["root"])
 outdir = root / "human_readable" / section / group / genus / species
