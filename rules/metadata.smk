@@ -34,10 +34,10 @@ rule sra:
     shell: "bash scripts/sra.sh {input} {output}"
 
 rule summary:
-    output: "resources/assembly_summary.txt"
+    output: "{root}/summary.tsv"
     shell:
-        "wget -P resources "
-        "'ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt'"
+        "wget -O - 'ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/bacteria/assembly_summary.txt' |"
+        "tail -n +2 > {root}/summary.tsv" # chop of first line
 
 rule names:
     input: "resources/assembly_summary.txt"
