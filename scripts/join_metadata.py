@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 outdir = os.path.join(snakemake.config["outdir"], snakemake.config["species"])
-summary = pd.read_csv(os.path.join(outdir, "summary.tsv"), sep="\t", index_col=0)
+summary = pd.read_csv(os.path.join(root, "summary.tsv"), sep="\t", index_col=0)
 summary.set_index("biosample", inplace=True)
 biosample = pd.read_csv(os.path.join(outdir, "biosample.csv"), index_col=0)
 biosample.index.rename("biosample", inplace=True)
