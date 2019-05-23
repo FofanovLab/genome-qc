@@ -23,8 +23,8 @@ rule genome_stats:
 
 rule qc:
     input:
-         summary="{root}/summary.tsv",
+         summary=root / "summary.tsv",
          stats_paths=stats_paths,
          dmx=rules.dist.output.dmx
-    output: os.path.join(outdir, "qc", "tree.svg")
+    output: outdir / "qc" / "tree.svg"
     script: "../scripts/qc.py"
