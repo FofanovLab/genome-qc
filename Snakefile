@@ -15,13 +15,14 @@ format = config["format"]
 
 root = Path(config["root"])
 outdir = root / "human_readable" / section / group / genus / species
+mash_out = outdir / "MASH"
 section_dir = outdir / section
 group_dir = section_dir / group
 
 
 rule all:
     input:
-        os.path.join(outdir, "qc", "tree.svg"),
+        outdir / "qc" / "tree.svg"
 
 rule commands:
     output: "scripts/commands.sh"

@@ -1,7 +1,5 @@
 from itertools import filterfalse
 
-out = root / "MASH" / f"{genus}_{species}"
-
 
 def sketch_paths(wc):
     outdir = checkpoints.download.get(**wc).output.outdir
@@ -23,8 +21,8 @@ rule sketch:
 rule paste:
     input: sketch_paths
     output:
-        paste=os.path.join(out, "all.msh"),
-        sketches=os.path.join(out, "sketches.txt")
+        paste=outdir / "all.msh",
+        sketches=outdir / "sketches.txt"
     shell:
         "find {outdir} -type f -name '*fna.gz.msh' > {output.sketches} &&"
         "mash paste {output.paste} -l {output.sketches}"
@@ -32,12 +30,12 @@ rule paste:
 #TODO Consider avoiding sketch/paste and just giving fastas
 # straight to mash dist
 rule dist:
-    input: os.path.join(out, "all.msh")
-    output: os.path.join(out, "all.dmx")
+    input: outdir / "all.msh"
+    output: dmx=outdir / "all.dmx"
     threads: threads
     shell: "mash dist -p {threads} -t '{input}' '{input}' > '{output}'"
 
 rule mean_dist:
-    input: dmx=os.path.join(out, "all.dmx")
-    output: mean_dist=os.path.join(out, "mean_distance.csv")
+    input: dmx=rules.dist.output.dmx
+    output: mean_dist=outdir / "mean_distance.csv"
     script: "../scripts/dmx.py"
