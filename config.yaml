@@ -1,9 +1,9 @@
 root: "genomes"
-group: "bacteria"
-section: "genbank"
-assembly_level: "complete,contig,chromosome,scaffold"
-format: "fasta"
-threads: 32
 genus: "Buchnera"
 species: "aphidicola"
 taxid: "9"
+section: "genbank"
+group: "bacteria"
+assembly_level: "complete,contig,chromosome,scaffold"
+format: "fasta"
+threads: 32
