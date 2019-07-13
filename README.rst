@@ -2,35 +2,26 @@
            GenBank Quality Control
 =============================================
 
-Complete documentation lives at `genbankqc.readthedocs.io`_.  It is a work in progress.
-
-GenBankQC is an effort to address the quality control problem for public databases such as the National Center for Biotechnology Information's `GenBank`_.  The goal is to offer a simple, efficient, and automated solution for assessing the quality of your genomes.
-
-Note
-----
-
-    Please note that GenbankQC is currently in alpha.  As a proof of concept for a specific use case, it currently has limitations that users should be aware of.  If there is interest, we will address the issues to make it more convenient to use.  Please see `caveats <#caveats>`__ for more details.
-
+GenBankQC is an effort to address the quality control problem for public
+databases such as the National Center for Biotechnology Information's `GenBank`_.
+The goal is to offer a simple, efficient, and automated solution for downloading
+and assessing the quality of your genomes.
 
 Features
 --------
 
 - Labelling/annotation-independent quality control based on:
 
-  -  Simple metrics
-
   - Genome distance estimation using `MASH`_
+  - Number of unknown bases
+  - Number of contigs
+  - Assembly size
+- Flagging potential outliers to exclude them from polluting your pipelines
 
-- Flag potential outliers to exclude them from polluting your pipelines
-
-The genbankqc work-flow consists of the following steps:
+The GenBankQC work-flow consists of the following steps:
 
 #. Generate statistics for each genome based on the following metrics:
 
-   * Number of unknown bases
-   * Number of contigs
-   * Assembly size
-   * Average `MASH`_ distance compared to other genomes
 
 #. Flag potential outliers based on these statistics:
 
@@ -65,18 +56,6 @@ If you don't yet have a functional conda environment, please download and instal
     source activate genbankqc
 
     pip install genbankqc
-
-
-.. _caveats:
-
-Caveats
---------
-
-There are some arbitrary, hard-coded limitations regarding file names.  This is because the project originally began as a part of the NCBI Tool Kit (`NCBITK`_) which we use for downloading genomes from NCBI.  NCBITK generates a specific directory structure and file naming scheme which GenbankQC currently expects.
-
-If you'd like to use GenBankQC without using NCBITK, all that is required is that your file names match the python regular expression ``re.compile('.*(GCA_\d+\.\d.*)(.fasta)')``.  You can quickly test this by following my example at `pythex.org`_.
-
-.. _pythex.org: https://pythex.org/?regex=.*(GCA_%5Cd%2B%5C.%5Cd.*)(.fasta)&test_string=GCA_002415405.1_Acinetobacter_nosocomialis_UBA5139_Scaffold.fasta&ignorecase=0&multiline=0&dotall=0&verbose=0
 
 .. _NCBITK:  https://github.com/andrewsanchez/NCBITK
 .. _GenBank: https://www.ncbi.nlm.nih.gov/genbank/
