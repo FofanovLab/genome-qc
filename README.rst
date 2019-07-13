@@ -1,5 +1,3 @@
-# Snakemake workflow: GenBankQC
-
 =============================================
            GenBank Quality Control
 =============================================
