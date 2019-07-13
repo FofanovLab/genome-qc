@@ -14,6 +14,7 @@ scripts/.snakemake*
 !environment.yaml
 !LICENSE
 !README.md
+!README.rst
 !rules
 !rules/*
 !.gitignore
