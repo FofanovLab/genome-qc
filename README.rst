@@ -52,9 +52,7 @@ If you don't yet have a functional conda environment, please download and instal
 .. code::
 
     conda create -n genbankqc -c etetoolkit -c biocore pip ete3 scikit-bio
-
     source activate genbankqc
-
     pip install genbankqc
 
 .. _NCBITK:  https://github.com/andrewsanchez/NCBITK
