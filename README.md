@@ -1,48 +1,91 @@
 # Snakemake workflow: GenBankQC
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥3.12.0-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/GenBankQC_Workflow.svg?branch=master)](https://travis-ci.org/snakemake-workflows/GenBankQC_Workflow)
+=============================================
+           GenBank Quality Control
+=============================================
 
-This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
-Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs`. Define the entry point of the workflow in the `Snakefile` and the main configuration in the `config.yaml` file.
+Complete documentation lives at `genbankqc.readthedocs.io`_.  It is a work in progress.
 
-## Authors
+GenBankQC is an effort to address the quality control problem for public databases such as the National Center for Biotechnology Information's `GenBank`_.  The goal is to offer a simple, efficient, and automated solution for assessing the quality of your genomes.
 
-* Andrew Sanchez (@andrewsanchez)
+Note
+----
 
-## Usage
+    Please note that GenbankQC is currently in alpha.  As a proof of concept for a specific use case, it currently has limitations that users should be aware of.  If there is interest, we will address the issues to make it more convenient to use.  Please see `caveats <#caveats>`__ for more details.
 
-### Step 1: Install workflow
 
-If you simply want to use this workflow, download and extract the [latest release](https://github.com/snakemake-workflows/GenBankQC_Workflow/releases).
-If you intend to modify and further develop this workflow, fork this repository. Please consider providing any generally applicable modifications via a pull request.
+Features
+--------
 
-In any case, if you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this repository and, if available, its DOI (see above).
+- Labelling/annotation-independent quality control based on:
 
-### Step 2: Configure workflow
+  -  Simple metrics
 
-Configure the workflow according to your needs via editing the file `config.yaml`.
+  - Genome distance estimation using `MASH`_
 
-### Step 3: Execute workflow
+- Flag potential outliers to exclude them from polluting your pipelines
 
-Test your configuration by performing a dry-run via
+The genbankqc work-flow consists of the following steps:
 
-    snakemake -n
+#. Generate statistics for each genome based on the following metrics:
 
-Execute the workflow locally via
+   * Number of unknown bases
+   * Number of contigs
+   * Assembly size
+   * Average `MASH`_ distance compared to other genomes
 
-    snakemake --cores $N
+#. Flag potential outliers based on these statistics:
 
-using `$N` cores or run it in a cluster environment via
+   * Flag genomes containing more than a certain number of unknown bases.
 
-    snakemake --cluster qsub --jobs 100
+   * Flag genomes outside of a range based on the median absolute deviation.
 
-or
+     * Applies to number of contigs and assembly size
 
-    snakemake --drmaa --jobs 100
+   * Flag genomes whose `MASH`_ distance is greater than the upper end of the median absolute deviation.
 
-See the [Snakemake documentation](https://snakemake.readthedocs.io) for further details.
+#. Visualize the results with a color coded tree
 
-## Testing
+Usage
+-----
 
-Tests cases are in the subfolder `.test`. They should be executed via continuous integration with Travis CI.
+::
+
+    genbankqc /path/to/genomes
+    open /path/to/genomes/Escherichia_coli/qc/200_3.0_3.0_3.0/tree.svg
+
+
+Installation
+------------
+
+If you don't yet have a functional conda environment, please download and install `Miniconda`_.
+
+.. code::
+
+    conda create -n genbankqc -c etetoolkit -c biocore pip ete3 scikit-bio
+
+    source activate genbankqc
+
+    pip install genbankqc
+
+
+.. _caveats:
+
+Caveats
+--------
+
+There are some arbitrary, hard-coded limitations regarding file names.  This is because the project originally began as a part of the NCBI Tool Kit (`NCBITK`_) which we use for downloading genomes from NCBI.  NCBITK generates a specific directory structure and file naming scheme which GenbankQC currently expects.
+
+If you'd like to use GenBankQC without using NCBITK, all that is required is that your file names match the python regular expression ``re.compile('.*(GCA_\d+\.\d.*)(.fasta)')``.  You can quickly test this by following my example at `pythex.org`_.
+
+.. _pythex.org: https://pythex.org/?regex=.*(GCA_%5Cd%2B%5C.%5Cd.*)(.fasta)&test_string=GCA_002415405.1_Acinetobacter_nosocomialis_UBA5139_Scaffold.fasta&ignorecase=0&multiline=0&dotall=0&verbose=0
+
+.. _NCBITK:  https://github.com/andrewsanchez/NCBITK
+.. _GenBank: https://www.ncbi.nlm.nih.gov/genbank/
+.. _ETE Toolkit: http://etetoolkit.org/
+.. _Miniconda: https://conda.io/miniconda.html
+.. _MASH: http://mash.readthedocs.io/en/latest/
+.. _genbankqc.readthedocs.io: http://genbankqc.readthedocs.io/en/latest/
+
+.. image:: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+           :target: https://yangsu.github.io/pull-request-tutorial/
