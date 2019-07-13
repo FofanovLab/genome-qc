@@ -1,9 +1,9 @@
-import os
 from pathlib import Path
 
 configfile: "config.yaml"
 
 
+root = Path(config["root"])
 genus = config["genus"]
 species = config["species"]
 taxid = config["taxid"]
@@ -12,8 +12,6 @@ group = config["group"]
 threads = config["threads"]
 assembly_level = config["assembly_level"]
 format = config["format"]
-
-root = Path(config["root"])
 outdir = root / "human_readable" / section / group / genus / species
 mash_out = outdir / "MASH"
 section_dir = outdir / section
