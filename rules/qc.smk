@@ -15,6 +15,8 @@ def stats_paths(wc):
 
 
 rule genome_stats:
+    """Generate a .csv for every genome containing
+    """
     input:
         mean_dist=rules.mean_dist.output.mean_dist,
         fasta=outdir / "{fasta_path}.fna.gz"
@@ -22,6 +24,9 @@ rule genome_stats:
     script: "../scripts/genome_stats.py"
 
 rule qc:
+    """Compile stats files, symlink genomes that pass filtering into passed directory, and
+    generate a color-coded tree.
+    """
     input:
          summary=root / "summary.tsv",
          stats_paths=stats_paths,
