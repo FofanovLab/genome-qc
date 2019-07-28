@@ -11,9 +11,8 @@ from pathlib import Path
 import pandas as pd
 
 from ete3 import Tree
-from genbankqc import config
+from common import config
 from common.rename import *
-import genbankqc.genome as genome
 
 
 genus = snakemake.config["genus"]
