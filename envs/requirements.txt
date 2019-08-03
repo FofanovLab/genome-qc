@@ -1,0 +1,11 @@
+numpy
+snakemake
+ete3==3.1.1
+biopython==1.72
+ncbi-genome-download==0.2.10
+pathos==0.2.1
+pandas==0.22.0
+click==7.0
+tenacity==5.0.2
+logbook==1.4.1
+attrs==18.2.0
