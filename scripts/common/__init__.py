@@ -1,1 +1,4 @@
-# Any Python script in the scripts folder will be able to import from this module and beyond.
+import os
+
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+
