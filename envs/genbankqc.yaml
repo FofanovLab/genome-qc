@@ -4,12 +4,13 @@ channels:
   - biocore
 dependencies:
   - python==3.6.6
+  - snakemake
   - ete3==3.1.1
   - scikit-bio==0.5.4
   - biopython==1.72
-  # Remove mash and entrez once commands are extract from genbankqc
   - mash==2.1
   - entrez-direct==10.2
+  - ncbi-genome-download==0.2.10
   - pathos==0.2.1
   - pandas==0.22.0
   - numpy==1.15.2
