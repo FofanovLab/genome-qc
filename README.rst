@@ -49,10 +49,9 @@ If you don't yet have a functional conda environment, please download and instal
 After downloading and installing miniconda:
 
 .. code::
-
-    conda create -n genbankqc -c etetoolkit -c biocore pip snakemake ete3 scikit-bio
-    source activate genbankqc
-    pip install genbankqc
+    git clone https://gitlab.com/sahl-lab/genome-qc
+    conda env create -n genbankqc -f envs/genbankqc.yaml
+    conda activate genbankqc
 
 Usage
 -----
