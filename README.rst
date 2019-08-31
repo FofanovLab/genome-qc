@@ -141,9 +141,9 @@ flag.  It will determine what commands are need by the directory structure outpu
 
 .. code::
 
-    snakemake --force commands.sh
+    snakemake --force commands
 
-This will create a new file, ``scripts/commands.sh``, with the commands needed to complete
+This will create a new file, ``commands.sh``, with the commands needed to complete
 the pipeline.
 
 
