@@ -1,5 +1,4 @@
 from pathlib import Path
-from common.rename import *
 
 root = Path(snakemake.config["root"])
 section = snakemake.config["section"]
@@ -7,7 +6,7 @@ group = snakemake.config["group"]
 outdir = root / "human_readable" / section / group
 pairs = outdir.glob("*/*")
 
-commands = Path("scripts/commands.sh")
+commands = Path("./commands.sh")
 try:
     commands.unlink()
 except FileNotFoundError:

@@ -141,7 +141,7 @@ flag.  It will determine what commands are need by the directory structure outpu
 
 .. code::
 
-    python scripts/generate_commands.py
+    snakemake --force commands.sh
 
 This will create a new file, ``scripts/commands.sh``, with the commands needed to complete
 the pipeline.
