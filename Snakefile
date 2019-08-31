@@ -23,7 +23,7 @@ rule all:
         outdir / "qc" / "tree.svg"
 
 rule commands:
-    output: "scripts/commands.sh"
+    output: "./commands.sh"
     script: "scripts/generate_commands.py"
 
 
